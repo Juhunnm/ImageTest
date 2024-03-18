@@ -1,0 +1,41 @@
+.ImgInfo {
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.ImgInfo span {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.ImgInfo input[type="text"],
+.ImgInfo input[type="checkbox"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; 
+}
+
+.ImgInfo input[type="checkbox"] {
+    width: auto;
+}
+
+.ImgInfo button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ececee;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ImgInfo button:hover {
+    background-color: #161616;
+}
