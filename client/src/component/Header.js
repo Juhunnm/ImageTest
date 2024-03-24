@@ -5,20 +5,26 @@ function Header() {
   return (
     <div className="header">
       <h1>Image WebTest</h1>
-      {/* <button
-        style={{
-          cursor: "pointer",
-          border: "none",
-          borderRadius: "5px",
-          marginBottom: "10px",
-          padding: "20px",
-
-        }}
-        onClick={() => {
-          alert("데이터 베이스 저장 완료");
-        }}
-      >데이터 베이스 업로드</button> */}
-      <Link to="/upload">사진 업로드</Link>
+      <Link style={{
+        cursor: "pointer",
+        border: "none",
+        color:"#222831",
+        background : "#EEEEEE",
+        borderRadius: "5px",
+        margin: "10",
+        padding: "20px",
+        textDecoration : "none",
+      }} to="/upload">사진 업로드</Link>
+      <Link style={{
+        cursor: "pointer",
+        border: "none",
+        color:"#222831",
+        background : "#EEEEEE",
+        borderRadius: "5px",
+        margin: "10",
+        padding: "20px",
+        textDecoration : "none",
+      }} to="/">메인</Link>
     </div>
   );
 }

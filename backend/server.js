@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
         cb(null, 'public/images');
     },
     filename: (req, file, cb) => {
-        cb(null,file.originalname);
+        cb(null, file.originalname);
     }
 })
 
@@ -29,11 +29,11 @@ const db = mysql.createConnection({
 })
 
 app.post('/upload', upload.single('image'), (req, res) => {
-    const { label } = req.body; 
-    const filename = req.file.originalname; 
-    const isedit  = 0;
-    const sql = "INSERT INTO imagesweb(fname, label,isedit ) VALUES (?, ?, ?)";
-    db.query(sql, [filename, label,isedit ], (err, data) => {
+    const { label } = req.body;
+    const filename = req.file.originalname;
+    const isedit = 0;
+    const sql = "INSERT INTO images(fname, label,isedit ) VALUES (?, ?, ?)";
+    db.query(sql, [filename, label, isedit], (err, data) => {
         if (err) {
             console.error(err);
             return res.json({ Message: "ERROR" });
@@ -44,20 +44,27 @@ app.post('/upload', upload.single('image'), (req, res) => {
 
 
 app.post('/update', (req, res) => {
-    const { fname, label, isedit } = req.body;
-    const sql = "UPDATE imagesweb SET label = ?, isedit = ? WHERE fname = ?";
-    db.query(sql, [label, isedit, fname], (err, result) => {
-        if (err) {
-            console.error(err);
-            return res.json({ Message: "Update ERROR" });
-        }
-        return res.json({ Status: "Update Success" });
-    });
+    // const { fname, label, isedit } = req.body;
+    // const sql = "UPDATE imaegs SET label = ?, isedit = ? WHERE fname = ?";
+    // const {} req.body;
+    console.log(req.body)
+    const sql = "INSERT INTO change_logs (cid,prev_value,new_value,edit_time) VALUES ? ? ? ?"
+    db.query(sql,[cid,prev_value,new_value,edit_time],(err,data)=>{
+        if(err) throw err;
+        console.log("change log")
+    })
+    // db.query(sql, [label, isedit, fname], (err, result) => {
+    //     if (err) {
+    //         console.error(err);
+    //         return res.json({ Message: "Update ERROR" });
+    //     }
+    //     return res.json({ Status: "Update Success" });
+    // });
 });
 
 
 app.get('/', (req, res) => {
-    const sql = "SELECT * FROM imagesweb";
+    const sql = "SELECT * FROM images";
     db.query(sql, (err, data) => {
         if (err) return res.json("ERROR");
         return res.json(data);

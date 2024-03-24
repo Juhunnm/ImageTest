@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Header from '../component/Header'
 import ImgView from '../component/ImgView'
 import axios from 'axios';
 import ImgInfo from '../component/ImgInfo';
@@ -23,9 +22,8 @@ const Home = () => {
   }
 
   return (
-    <div>
-      <Header />
-      <ImgView data={data} setSelectImage={setSelectImage} />
+    <div >
+      <ImgView data={data} setSelectImage={setSelectImage} selectImage={selectImage}/>
       {selectImage &&
         <ImgInfo selectImage={selectImage} />}
     </div>
