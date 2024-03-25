@@ -12,11 +12,7 @@ const ImgView = ({ data, setSelectImage,selectImage }) => {
     };
     
     return (
-        <div className="ImgView"
-            style={{
-                margin: "10"
-            }}
-        >
+        <div className="ImgView">
             <Slider {...settings}>
                 {data.map((it, index) => (
                     <div key={index} onClick={() => setSelectImage(it)}

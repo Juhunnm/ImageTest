@@ -1,48 +1,57 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; // axios import
-import './ImgInfo.css'
+import axios from 'axios';
+// import './ImgInfo.css';
 
 const ImgInfo = ({ selectImage }) => {
-    const [data,setData] = useState({
-        label : "",
-        fname : "",
-        isedit : "",
-    })
-    // const [label, setLabel] = useState(selectImage.label);
-    // const [fname, setFname] = useState(selectImage.fname);
-    // const [isedit, setIsedit] = useState(selectImage.isedit);
-    const [prevValue,setPrevValue] = useState();
-    const [newValue,setNewValue] = useState();
-    const [editTime,setEditTime] = useState();
+    const [data, setData] = useState({
+        cid : "",
+        label: "",
+        fname: "",
+        isedit: false,
+    });
+    const [prevValue, setPrevValue] = useState("");
+    const [editTime, setEditTime] = useState("");
 
-    useEffect(()=>{
-        // setLabel(selectImage.label);
-        // setFname(selectImage.fname);
-        // setIsedit(selectImage.isedit);
+    useEffect(() => {
         setData({
-            label : selectImage.label,
-            fname : selectImage.fname,
-            isedit : selectImage.isedit,
-        })
-    },[selectImage])
+            cid  : selectImage.cid,
+            label: selectImage.label,
+            fname: selectImage.fname,
+            isedit: selectImage.isedit,
+        });
+        setPrevValue(selectImage.label); 
+    }, [selectImage]);
 
     const handleUpdate = () => {
-        axios.post('http://localhost:8800/update', { fname, label, isedit : true })
-            .then(res => {
-                console.log(res.data);
-            })
-            .catch(error => {
-                console.error('UpdateError:', error);
-            });
+
+        const updateTime = new Date().toISOString().replace('Z', '').split('.')[0];
+        setEditTime(updateTime);
+
+        axios.post('http://localhost:8800/update', {
+            ...data,
+            isedit: true,
+            prev_value: prevValue,
+            new_value: data.label, 
+            edit_time: updateTime,
+        })
+        .then(res => {
+            console.log(res.data);
+            setPrevValue(data.label);
+            alert("편집 완료");
+        })
+        .catch(error => {
+            console.error('UpdateError:', error);
+        });
+
     };
-        console.log(selectImage);
+
     return (
-        <div className="ImgInfo">
+        <div className="container">
             <span>Label</span>
             <input
                 type="text"
                 value={data.label}
-                onChange={e => setLabel(e.target.value)}
+                onChange={e => setData({ ...data, label: e.target.value })}
                 placeholder="info"
             />
             <span>FileName</span>
@@ -60,6 +69,6 @@ const ImgInfo = ({ selectImage }) => {
             <button onClick={handleUpdate}>편집</button>
         </div>
     );
-}
+};
 
 export default ImgInfo;

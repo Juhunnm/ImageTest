@@ -6,7 +6,10 @@
 .image-container img {
     width: 200px; 
     height: auto;
-    display: block; 
-    /* padding: 5px; */
+    object-fit: cover;
     cursor: pointer;
+}
+/* 슬라이더 */
+.ImgView {
+    margin: 20px auto;
 }

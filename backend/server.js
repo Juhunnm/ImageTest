@@ -44,23 +44,28 @@ app.post('/upload', upload.single('image'), (req, res) => {
 
 
 app.post('/update', (req, res) => {
-    // const { fname, label, isedit } = req.body;
-    // const sql = "UPDATE imaegs SET label = ?, isedit = ? WHERE fname = ?";
-    // const {} req.body;
     console.log(req.body)
-    const sql = "INSERT INTO change_logs (cid,prev_value,new_value,edit_time) VALUES ? ? ? ?"
-    db.query(sql,[cid,prev_value,new_value,edit_time],(err,data)=>{
-        if(err) throw err;
-        console.log("change log")
-    })
-    // db.query(sql, [label, isedit, fname], (err, result) => {
-    //     if (err) {
-    //         console.error(err);
-    //         return res.json({ Message: "Update ERROR" });
-    //     }
-    //     return res.json({ Status: "Update Success" });
-    // });
+    const { cid, prev_value, new_value, edit_time, label, isedit, fname } = req.body;
+
+    const sql = "INSERT INTO change_logs (cid, prev_value, new_value, edit_time) VALUES (?, ?, ?, ?)";
+    db.query(sql, [cid, prev_value, new_value, edit_time], (err, data) => {
+        if (err) {
+            console.error(err);
+            return res.json({ Message: "ERROR", error: err });
+        }
+        console.log("Change log recorded");
+
+        const sql2 = "UPDATE images SET label = ?, isedit = ? WHERE fname = ?";
+        db.query(sql2, [label, isedit, fname], (err, data) => {
+            if (err) {
+                console.error(err);
+                return res.json({ Message: "Update ERROR", error: err });
+            }
+            res.json({ Status: "Update Success" });
+        });
+    });
 });
+
 
 
 app.get('/', (req, res) => {

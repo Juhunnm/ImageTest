@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import './ImgInfo.css';
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
@@ -43,6 +44,7 @@ const FileUpload = () => {
           console.log("Failed");
         }
       })
+      
       .catch((err) => {
         console.error(err);
         alert("업로드 실패.");
