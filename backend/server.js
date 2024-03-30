@@ -69,11 +69,14 @@ app.post('/update', (req, res) => {
 
 
 app.get('/', (req, res) => {
+    // home.js 요청
     const sql = "SELECT * FROM images";
     db.query(sql, (err, data) => {
         if (err) return res.json("ERROR");
         return res.json(data);
     })
+    // ImgeLog.js 요청
+    
 })
 app.listen(8800, () => {
     console.log("connected ")

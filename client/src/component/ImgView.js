@@ -2,21 +2,23 @@ import React from 'react';
 import Slider from "react-slick";
 import './ImgView.css'
 
-const ImgView = ({ data, setSelectImage,selectImage }) => {
+const ImgView = ({ data, setSelectImage, selectImage }) => {
     const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
+        dots: true, // 슬라이더 하단의 점 표시
+        infinite: true, // 사진이 끝나면 뒤에 반복할것인가
+        speed: 500, 
+        slidesToShow: 2,
         slidesToScroll: 1,
+        arrows : true, // 화살표 유무
+        autoplay : true, 
     };
-    
+
     return (
         <div className="ImgView">
             <Slider {...settings}>
                 {data.map((it, index) => (
                     <div key={index} onClick={() => setSelectImage(it)}
-                        className={`image-container ${selectImage &&selectImage.fname === it.fname ? 'on' : "off"}`}
+                        className={`ImgView-container ${selectImage && selectImage.fname === it.fname ? 'on' : "off"}`}
                     >
                         <img src={`http://localhost:8800/images/${it.fname}`} alt='' />
                     </div>

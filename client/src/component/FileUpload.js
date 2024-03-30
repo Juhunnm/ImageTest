@@ -11,14 +11,14 @@ const FileUpload = () => {
     setFile(e.target.files[0]);
   };
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8800/")
-      .then((res) => {
-        setData(res.data[0]);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8800/")
+  //     .then((res) => {
+  //       setData(res.data[0]);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   const handleUpload = () => {
     if (!file) {
@@ -39,12 +39,11 @@ const FileUpload = () => {
       })
       .then((res) => {
         if (res.data.Status === "Success") {
-          console.log("Success");
+          alert("이미지 업로드 성공")
         } else {
           console.log("Failed");
         }
       })
-      
       .catch((err) => {
         console.error(err);
         alert("업로드 실패.");

@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react'
 import ImgView from '../component/ImgView'
 import axios from 'axios';
 import ImgInfo from '../component/ImgInfo';
+import ImgLog from '../component/ImgLog';
 
 const Home = () => {
   const [data, setData] = useState([]);
   const [selectImage, setSelectImage] = useState(null);
+  const [selectLog,setSelectLog] = useState(false)
 
+  // 데이터 가져오는곳
   useEffect(() => {
     axios.get('http://localhost:8800/')
       .then((res) => {
-        console.log('home')
         console.log(res.data);
         setData(res.data)
       })
@@ -25,7 +27,8 @@ const Home = () => {
     <div >
       <ImgView data={data} setSelectImage={setSelectImage} selectImage={selectImage}/>
       {selectImage &&
-        <ImgInfo selectImage={selectImage} />}
+        <ImgInfo selectImage={selectImage} selectLog={selectLog} setSelectLog={setSelectLog}/>}
+      {selectLog && <ImgLog selectImage={selectImage}/>}
     </div>
   );
 }
