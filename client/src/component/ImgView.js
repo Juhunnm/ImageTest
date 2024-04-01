@@ -5,9 +5,9 @@ import './ImgView.css'
 const ImgView = ({ data, setSelectImage, selectImage }) => {
     const settings = {
         dots: true, // 슬라이더 하단의 점 표시
-        infinite: true, // 사진이 끝나면 뒤에 반복할것인가
+        infinite: false, // 사진이 끝나면 뒤에 반복할것인가
         speed: 500, 
-        slidesToShow: 2,
+        slidesToShow: 21,
         slidesToScroll: 1,
         arrows : true, // 화살표 유무
         autoplay : true, 

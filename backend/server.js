@@ -66,7 +66,13 @@ app.post('/update', (req, res) => {
     });
 });
 
-
+app.get("/imglog",(req,res)=>{
+    const sql = "select * from change_logs";
+    db.query(sql,(err,data)=>{
+        if(err) return res.json("ERROR");
+        return res.json(data);
+    })
+})
 
 app.get('/', (req, res) => {
     // home.js 요청
@@ -75,7 +81,6 @@ app.get('/', (req, res) => {
         if (err) return res.json("ERROR");
         return res.json(data);
     })
-    // ImgeLog.js 요청
     
 })
 app.listen(8800, () => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import './ImgInfo.css';
+import './FileUpload.css';
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
@@ -39,7 +39,8 @@ const FileUpload = () => {
       })
       .then((res) => {
         if (res.data.Status === "Success") {
-          alert("이미지 업로드 성공")
+          alert("이미지 업로드 성공");
+          
         } else {
           console.log("Failed");
         }
@@ -51,7 +52,7 @@ const FileUpload = () => {
   };
 
   return (
-    <div className="container">
+    <div className="FileUpload-container">
       <input type="file" onChange={handleFile} />
       <input type="text" value={label} onChange={(e) => setLabel(e.target.value)} placeholder="Label" />
       <button onClick={handleUpload}>Upload</button>
