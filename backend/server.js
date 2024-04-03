@@ -47,7 +47,7 @@ app.post('/update', (req, res) => {
     console.log(req.body)
     const { cid, prev_value, new_value, edit_time, label, isedit, fname } = req.body;
 
-    const sql = "INSERT INTO change_logs (cid, prev_value, new_value, edit_time) VALUES (?, ?, ?, ?)";
+    const sql = "INSERT INTO change_logs (cid, prev_value, new_value, edit_time,status) VALUES (?, ?, ?, ?, ?)";
     db.query(sql, [cid, prev_value, new_value, edit_time], (err, data) => {
         if (err) {
             console.error(err);
