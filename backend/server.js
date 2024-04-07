@@ -6,6 +6,7 @@ import path from 'path'
 
 const app = express();
 app.use(express.json());
+
 app.use(cors());
 app.use(express.static('public'));
 
@@ -32,8 +33,9 @@ app.post('/upload', upload.single('image'), (req, res) => {
     const { label } = req.body;
     const filename = req.file.originalname;
     const isedit = 0;
-    const sql = "INSERT INTO images(fname, label,isedit ) VALUES (?, ?, ?)";
-    db.query(sql, [filename, label, isedit], (err, data) => {
+    const isdelete = 0;
+    const sql = "INSERT INTO images(fname, label,isedit,isdelete) VALUES (?, ?, ?, ?)";
+    db.query(sql, [filename, label, isedit,isdelete], (err, data) => {
         if (err) {
             console.error(err);
             return res.json({ Message: "ERROR" });
@@ -47,7 +49,7 @@ app.post('/update', (req, res) => {
     console.log(req.body)
     const { cid, prev_value, new_value, edit_time, label, isedit, fname } = req.body;
 
-    const sql = "INSERT INTO change_logs (cid, prev_value, new_value, edit_time,status) VALUES (?, ?, ?, ?, ?)";
+    const sql = "INSERT INTO change_logs (cid, prev_value, new_value, edit_time) VALUES (?, ?, ?, ?)";
     db.query(sql, [cid, prev_value, new_value, edit_time], (err, data) => {
         if (err) {
             console.error(err);
@@ -55,8 +57,8 @@ app.post('/update', (req, res) => {
         }
         console.log("Change log recorded");
 
-        const sql2 = "UPDATE images SET label = ?, isedit = ? WHERE fname = ?";
-        db.query(sql2, [label, isedit, fname], (err, data) => {
+        const sql2 = "UPDATE images SET label = ?, isedit = ? WHERE cid = ?";
+        db.query(sql2, [label, isedit, cid], (err, data) => {
             if (err) {
                 console.error(err);
                 return res.json({ Message: "Update ERROR", error: err });
@@ -66,23 +68,47 @@ app.post('/update', (req, res) => {
     });
 });
 
-app.get("/imglog",(req,res)=>{
-    const sql = "select * from change_logs";
-    db.query(sql,(err,data)=>{
-        if(err) return res.json("ERROR");
-        return res.json(data);
-    })
-})
+// app.get("/imglog",(req,res)=>{
+//     const sql = "select * from change_logs";
+//     db.query(sql,(err,data)=>{
+//         if(err) return res.json("ERROR");
+//         return res.json(data);
+//     })
+// })
+
+app.get ('/', (req, res, next) => {
+    console.log(Date.now());
+    next();
+ })
 
 app.get('/', (req, res) => {
     // home.js 요청
-    const sql = "SELECT * FROM images";
+    const sql = "SELECT * FROM images where isdelete =0";
     db.query(sql, (err, data) => {
         if (err) return res.json("ERROR");
         return res.json(data);
     })
     
 })
+
+app.get('/img/:id', (req, res) => {
+    const sql = "SELECT * FROM images where cid = ? ";
+    db.query(sql, [req.params.id], (err, data) => {
+        if (err) return res.json("ERROR");
+        return res.json(data);
+    })
+})
+
+app.get('/delete/:id', (req, res) => {
+    // const sql = "DELETE FROM images WHERE cid = ? ";
+    const isdelete = 1;
+    const sql = "UPDATE images SET isdelete = ? WHERE cid = ?"
+    db.query(sql, [isdelete,req.params.id], (err, data) => {
+        if (err) return res.json("ERROR");
+        return res.json(data);
+    })
+})
+
 app.listen(8800, () => {
     console.log("connected ")
 })

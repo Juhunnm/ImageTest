@@ -1,5 +1,6 @@
 import React from 'react';
 import Slider from "react-slick";
+import axios from 'axios';
 import './ImgView.css'
 
 const ImgView = ({ data, setSelectImage, selectImage }) => {
@@ -12,12 +13,22 @@ const ImgView = ({ data, setSelectImage, selectImage }) => {
         arrows : true, // 화살표 유무
         autoplay : true, 
     };
-
+    
+    const handleSelectImage = (image) =>{
+        axios.get(`http://localhost:8800/img/${image.cid}`)
+        .then((res)=>{
+            // const imageData = res.data ? res.data : {image};
+            // setSelectImage(imageData);
+            setSelectImage(image);
+            console.log('상세 정보 : ',res.data);
+        })
+        .catch((err)=>console.log(err));
+    }
     return (
         <div className="ImgView">
             <Slider {...settings}>
                 {data.map((it, index) => (
-                    <div key={index} onClick={() => setSelectImage(it)}
+                    <div key={index} onClick={()=> handleSelectImage(it)}
                         className={`ImgView-container ${selectImage && selectImage.fname === it.fname ? 'on' : "off"}`}
                     >
                         <img src={`http://localhost:8800/images/${it.fname}`} alt='' />

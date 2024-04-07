@@ -5,7 +5,10 @@ import FileUpload from './page/Upload'
 
 const RoutPage = () => {
   return (
-    <div>
+    <div style={{
+      width : '960px',
+      margin:'0 auto'}}
+  >
       <Routes>
         {/* 메인 페이지 */}
         <Route path="/" element={<Home />} />

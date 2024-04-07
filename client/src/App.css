@@ -1,0 +1,27 @@
+.App {
+    text-align: center;
+  }
+  
+  .flexContainer {
+    display: flex;
+  }
+  
+  .leftSidebar, .rightContent {
+    flex: 1; /* 사이드바와 오른쪽 콘텐츠 영역이 유연하게 늘어나도록 설정 */
+    /* 필요하다면 width를 설정하여 너비 조정 */
+  }
+  
+  .mainContent {
+    flex: 3; /* 메인 콘텐츠 영역이 더 넓게 설정되도록 조정 */
+    /* 필요하다면 width를 설정하여 너비 조정 */
+  }
+  
+  /* 추가적인 스타일링 */
+  .leftSidebar {
+    /* 왼쪽 사이드바 스타일 */
+  }
+  
+  .rightContent {
+    /* 오른쪽 콘텐츠 스타일 */
+  }
+  
