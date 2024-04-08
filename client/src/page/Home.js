@@ -1,40 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import ImgView from '../component/ImgView'
-import axios from 'axios';
 import ImgInfo from '../component/ImgInfo';
 import ImgLog from '../component/ImgLog';
+// context data import
+import { useImages } from '../App';
 
 const Home = () => {
-  const [data, setData] = useState([]);
-  const [selectImage, setSelectImage] = useState(null);
-  const [selectLog, setSelectLog] = useState(false)
-
-  // 데이터 가져오는곳
-  const fetchData = () => {
-    axios.get('http://localhost:8800/')
-      .then((res) => {
-        console.log(res.data);
-        setData(res.data)
-      })
-      .catch((err) => console.log(err));
-  }
-  useEffect(() => {
-    fetchData();
-    setSelectImage(null); // 이미지 선택 상태를 초기화
-  }, [])
-
-
-  if (data.length === 0) {
-    return <div>데이터를 불러오는 중이거나 데이터가 없습니다.</div>;
-  }
-
+  const {data,setData,selectImage,setSelectImage,selectLog,setSelectLog,fetchData} = useImages();
   return (
     <div >
       <ImgView data={data} setSelectImage={setSelectImage} selectImage={selectImage} />
       {selectImage &&
         <ImgInfo selectImage={selectImage} selectLog={selectLog} setSelectLog={setSelectLog} fetchData={fetchData}/>}
-      {/* {selectLog && <ImgLog selectImage={selectImage}/>} */}
-    </div>
+    </div>    
   );
 }
 

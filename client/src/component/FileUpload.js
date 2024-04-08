@@ -2,23 +2,17 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import './FileUpload.css';
 
+//contextApi
+import { useImages } from "../App";
 const FileUpload = () => {
   const [file, setFile] = useState(null);
-  const [data, setData] = useState({ fname: '', label: '', isedit: false });
+  // const [data, setData] = useState({ fname: '', label: '', isedit: false });
   const [label, setLabel] = useState('');
+  const {fetchData} = useImages();
 
   const handleFile = (e) => {
     setFile(e.target.files[0]);
-  };
-
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:8800/")
-  //     .then((res) => {
-  //       setData(res.data[0]);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
+  }
 
   const handleUpload = () => {
     if (!file) {
@@ -40,7 +34,7 @@ const FileUpload = () => {
       .then((res) => {
         if (res.data.Status === "Success") {
           alert("이미지 업로드 성공");
-          
+          fetchData();
         } else {
           console.log("Failed");
         }

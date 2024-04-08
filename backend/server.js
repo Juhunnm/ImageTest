@@ -68,13 +68,13 @@ app.post('/update', (req, res) => {
     });
 });
 
-// app.get("/imglog",(req,res)=>{
-//     const sql = "select * from change_logs";
-//     db.query(sql,(err,data)=>{
-//         if(err) return res.json("ERROR");
-//         return res.json(data);
-//     })
-// })
+app.get("/imglog/:id",(req,res)=>{
+    const sql = "select * from change_logs where cid = ?";
+    db.query(sql,[req.params.id],(err,data)=>{
+        if(err) return res.json("ERROR");
+        return res.json(data);
+    })
+})
 
 app.get ('/', (req, res, next) => {
     console.log(Date.now());

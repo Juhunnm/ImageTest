@@ -1,20 +1,24 @@
-.ImgLog-continer{
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #f0f0f0;
-  }
-  
-  input{
-    border: 1px solid #ccc;
-    padding: 6px 12px;
-    margin-bottom: 10px;
-    width: 100%;
-    border-radius: 4px;
-  }
+.ImgLog-container {
+  display: flex;
+  flex-direction: row;
+  background-color: gray;
+  margin: 10px 0;
+}
 
-  .ImgLog-table{
-    display: flex;
-    justify-content: space-around;
-  }
+.ImgLog-table {
+  justify-content: space-between; /* 항목들을 양 끝으로 정렬 */
+  margin-bottom: 10px; /* 각 로그 항목 사이에 마진 추가 */
+}
+
+.ImgLog-box {
+  flex: 1; /* 박스들이 동일한 공간을 차지하도록 함 */
+  display: flex;
+  flex-direction: row;
+  margin: 10px; /* 박스 사이에 오른쪽 마진 추가 */
+}
+
+.ImgLog-box:last-child {
+  flex: 0.5; /* 마지막 박스는 더 작게 설정 */
+  margin-right: 0; /* 마지막 박스에는 마진이 없도록 함 */
+  justify-self: flex-end; /* edit_time을 우측 하단에 위치시키기 위해 사용 */
+}

@@ -62,6 +62,7 @@ const ImgInfo = ({ selectImage, setSelectLog, selectLog, setSelectImage,fetchDat
             axios.get(`http://localhost:8800/delete/${data.cid}`)
             .then(() => {
                 alert("이미지가 성공적으로 삭제되었습니다.");
+                // 데이터 다시 불러오기
                 fetchData();
             })
             .catch(error => {
@@ -96,7 +97,7 @@ const ImgInfo = ({ selectImage, setSelectLog, selectLog, setSelectImage,fetchDat
             </div>
             <button onClick={handleUpdate}>편집</button>
             <button onClick={handleDelete}>삭제</button>
-            {Boolean(data.isedit) && <button onClick={handleLog}>수정 내역</button>}
+            {/* {Boolean(data.isedit) && <button onClick={handleLog}>수정 내역</button>} */}
         </div>
     );
 };
