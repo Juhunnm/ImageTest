@@ -37,14 +37,18 @@ function App() {
 // ImageLog 관련
 useEffect(() => {
   if (selectImage) {
-    // 선택된 이미지의 로그 정보를 가져옵니다.
+    setLogs([]); // Clear previous logs
+    // Fetch new logs for the selected image
     axios.get(`http://localhost:8800/imglog/${selectImage.cid}`)
       .then(res => {
-        setLogs(res.data); // 응답을 logs 상태에 저장합니다.
+        setLogs(res.data); // Set new logs
       })
       .catch((err) => console.log(err));
+  } else {
+    // Optionally, clear logs if there is no selected image
+    setLogs([]);
   }
-}, [selectImage])
+}, [selectImage]);
 
   
   if (data.length === 0) {
