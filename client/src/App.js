@@ -81,7 +81,7 @@ const handleReverse =() =>{
           </div>
 
           <div className="mainContent">
-            {/* <RoutPage /> */}
+            <RoutPage />
           </div>
           <div className="rightContent">
           {selectImage && logs.map((log, index) => (
