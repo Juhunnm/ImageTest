@@ -1,7 +1,10 @@
 <pre>
     /backend 
-  npm start
-    ->server start
+  node server.js
+    -> server start
+  node new_server.js
+    ->grpc server start
+    
 /client
   npm start
     ->react start
