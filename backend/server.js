@@ -1,9 +1,12 @@
-import express from 'express'
-import mysql from 'mysql2'
-import cors from 'cors'
-import multer from 'multer'
-import path from 'path'
+const express = require('express');
+const mysql = require('mysql2');
+const cors = require('cors');
+const multer = require('multer');
+const path = require('path');
 
+// grpc
+const client = require('./news_client');
+const { reverse } = require('dns');
 const app = express();
 app.use(express.json());
 
@@ -22,13 +25,39 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage
 })
+//db
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "3115",
     database: 'imgdb',
 })
-
+//grpc test
+app.get('/news', (req, res) => {
+    // client.GetAllNews({}, (error, response) => {
+    //     if (error) {
+    //         return res.status(500).json({ error: 'Internal server error' });
+    //     }
+    //     res.json(response);
+    // });
+    let testNews = {
+        id: "1",
+        title: "Test News",
+        body: "This is a test news body.",
+        postImage: "path/to/image.jpg"
+    };
+    let stringMessage = {
+        value: "Hello, world!"
+    };
+    client.GetReverse(testNews, (err, response) => {
+        if (err) {
+            console.error("Error:", err);
+            res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            res.json(response);
+        }
+    });
+});
 app.post('/upload', upload.single('image'), (req, res) => {
     const { label } = req.body;
     const filename = req.file.originalname;
