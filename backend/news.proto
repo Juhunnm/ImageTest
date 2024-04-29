@@ -4,7 +4,7 @@ package newsPackage;
 
 service NewsService {
     rpc GetAllNews (Empty) returns (NewsList) {}
-    rpc GetReverse (News) returns (News) {}
+    rpc GetReverse (StringMessage) returns (StringMessage) {}
 }
 
 message News {

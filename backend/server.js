@@ -33,7 +33,7 @@ const db = mysql.createConnection({
     database: 'imgdb',
 })
 //grpc test
-app.get('/news', (req, res) => {
+app.post('/reverse', (req, res) => {
     // client.GetAllNews({}, (error, response) => {
     //     if (error) {
     //         return res.status(500).json({ error: 'Internal server error' });
@@ -47,13 +47,17 @@ app.get('/news', (req, res) => {
         postImage: "path/to/image.jpg"
     };
     let stringMessage = {
-        value: "Hello, world!"
+        value: "Helloew, world!"
     };
-    client.GetReverse(testNews, (err, response) => {
+    const reverseTest = req.body;
+
+    client.GetReverse(reverseTest, (err, response) => {
         if (err) {
             console.error("Error:", err);
             res.status(500).json({ error: 'Internal Server Error' });
         } else {
+            console.log("client grpc");
+            console.log(response);
             res.json(response);
         }
     });

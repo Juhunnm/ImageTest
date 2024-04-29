@@ -24,13 +24,12 @@ function GetAllNews  (call, callback) {
 }
 
 function GetReverse (call,callback){
-  let reverseNews = {
-    id : call.request.id,
-  }
-  let testnew = call.request.newtest;
-  console.log(reverseNews)
-  callback(null,reverseNews)
+  let inputValue = call.request.value; 
+  let reversedValue = inputValue.split('').reverse().join(''); // 문자열을 뒤집음
+  console.log(reversedValue)
+  callback(null, { value: reversedValue }); // 뒤집힌 문자열을 반환
 }
+
 
 server.bindAsync(
   "127.0.0.1:50051",

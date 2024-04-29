@@ -20,6 +20,8 @@ function App() {
   // 
   const [selectLog, setSelectLog] = useState(false)
   const [logs, setLogs] = useState([]); 
+  //grpc reverse data
+  const [reverse,setReverse] = useState("");
 
   const fetchData = () => {
     axios.get('http://localhost:8800/')
@@ -50,7 +52,18 @@ useEffect(() => {
   }
 }, [selectImage]);
 
-  
+const handleText = (e) =>{
+  setReverse(e.target.value);
+}
+const handleReverse =() =>{
+  axios.post(`http://localhost:8800/reverse`,{value : reverse})
+  .then((res)=>{
+    console.log("Reverse Data Confirm");
+  })
+  .catch((err)=>{
+    console.log(err);
+  })
+}
   if (data.length === 0) {
     return <div>데이터를 불러오는 중이거나 데이터가 없습니다.</div>;
   }
@@ -59,10 +72,17 @@ useEffect(() => {
       <div className="App">
         <Header />
         <div className="flexContainer">
-          <div className="leftSidebar">왼쪽</div>
+          <div className="leftSidebar">
+            <input
+              type='text'
+              value={reverse}
+              onChange={handleText}
+            />
+            <button onClick={handleReverse}/>
+          </div>
 
           <div className="mainContent">
-            <RoutPage />
+            {/* <RoutPage /> */}
           </div>
           <div className="rightContent">
           {selectImage && logs.map((log, index) => (
