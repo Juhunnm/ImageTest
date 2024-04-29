@@ -39,15 +39,13 @@ function App() {
 // ImageLog 관련
 useEffect(() => {
   if (selectImage) {
-    setLogs([]); // Clear previous logs
-    // Fetch new logs for the selected image
+    setLogs([]); 
     axios.get(`http://localhost:8800/imglog/${selectImage.cid}`)
       .then(res => {
-        setLogs(res.data); // Set new logs
+        setLogs(res.data);
       })
       .catch((err) => console.log(err));
   } else {
-    // Optionally, clear logs if there is no selected image
     setLogs([]);
   }
 }, [selectImage]);
@@ -59,6 +57,7 @@ const handleReverse =() =>{
   axios.post(`http://localhost:8800/reverse`,{value : reverse})
   .then((res)=>{
     console.log("Reverse Data Confirm");
+    setReverse(res.data.value);
   })
   .catch((err)=>{
     console.log(err);
@@ -78,7 +77,7 @@ const handleReverse =() =>{
               value={reverse}
               onChange={handleText}
             />
-            <button onClick={handleReverse}/>
+            <button onClick={handleReverse}>Reverse </button>
           </div>
 
           <div className="mainContent">
