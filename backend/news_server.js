@@ -17,6 +17,7 @@ server.addService(newsPackage.NewsService.service,
 {
     // "GetAllNews" : GetAllNews,
     "GetReverse" : GetReverse,
+    'UploadImage' : UploadImage,
 });
 
 function GetAllNews  (call, callback) {
@@ -30,6 +31,19 @@ function GetReverse (call,callback){
   callback(null, { value: reversedValue }); // 뒤집힌 문자열을 반환
 }
 
+function UploadImage (call,callback){
+  const image = call.request.image;
+  const label = call.request.label;
+  const hashed = call.request.hashed;
+
+  console.log("grpc_server");
+  console.log('label : ',label);
+  console.log('image : ',image);
+  console.log(hashed);
+
+  callback(null,{status : "image received succesfully"})
+
+}
 
 server.bindAsync(
   "127.0.0.1:50051",

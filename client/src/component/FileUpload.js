@@ -6,9 +6,20 @@ import './FileUpload.css';
 import { useImages } from "../App";
 const FileUpload = () => {
   const [file, setFile] = useState(null);
-  // const [data, setData] = useState({ fname: '', label: '', isedit: false });
+  const [formData, setFormData] = useState(new FormData());
   const [label, setLabel] = useState('');
   const {fetchData} = useImages();
+
+  useEffect(()=>{
+    const newFormData = new FormData();
+    if (file) {
+      newFormData.append("image", file);
+      newFormData.append("filename", file.name);
+    }
+    newFormData.append("label", label);
+    console.log(newFormData)
+    setFormData(newFormData);
+  }, [file, label]);
 
   const handleFile = (e) => {
     setFile(e.target.files[0]);
@@ -19,12 +30,6 @@ const FileUpload = () => {
       alert("파일을 선택해주세요.");
       return;
     }
-
-    const formData = new FormData();
-    formData.append("image", file);
-    formData.append("label", label);
-    formData.append("filename", file.name); 
-
     axios
       .post("http://localhost:8800/upload", formData, {
         headers: {
@@ -44,12 +49,27 @@ const FileUpload = () => {
         alert("업로드 실패.");
       });
   };
-
+  const handleGrpc = () =>{
+    axios.post("http://localhost:8800/grpc",formData,{
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res)=>{
+      console.log("통신 성공");
+    })
+    .catch((err)=>{
+      if(err) console.log("통신 실패");
+    })
+  }
   return (
     <div className="FileUpload-container">
-      <input type="file" onChange={handleFile} />
+      <input type="file" name="image" onChange={handleFile} />
       <input type="text" value={label} onChange={(e) => setLabel(e.target.value)} placeholder="Label" />
+      <div>
       <button onClick={handleUpload}>Upload</button>
+      <button onClick={handleGrpc}>grpc</button>
+      </div>
       {/* <img src={`http://localhost:8800/images/${data.fname}`} alt="" /> */}
     </div>
   );

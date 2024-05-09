@@ -3,24 +3,28 @@ const mysql = require('mysql2');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
-
+//use sha256
+const crypto = require('crypto');
 // grpc
 const client = require('./news_client');
-const { reverse } = require('dns');
 const app = express();
 app.use(express.json());
 
 app.use(cors());
 app.use(express.static('public'));
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'public/images');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-})
+
+//grpc buffer test
+const storage = multer.memoryStorage();
+
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'public/images');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// })
 
 const upload = multer({
     storage: storage
@@ -32,23 +36,10 @@ const db = mysql.createConnection({
     password: "3115",
     database: 'imgdb',
 })
-//grpc test
+//grpc
+//grpc reverse func
 app.post('/reverse', (req, res) => {
-    // client.GetAllNews({}, (error, response) => {
-    //     if (error) {
-    //         return res.status(500).json({ error: 'Internal server error' });
-    //     }
-    //     res.json(response);
-    // });
-    let testNews = {
-        id: "1",
-        title: "Test News",
-        body: "This is a test news body.",
-        postImage: "path/to/image.jpg"
-    };
-    let stringMessage = {
-        value: "Helloew, world!"
-    };
+
     const reverseTest = req.body;
 
     client.GetReverse(reverseTest, (err, response) => {
@@ -59,9 +50,37 @@ app.post('/reverse', (req, res) => {
             console.log("client grpc");
             console.log(response);
             res.json(response);
-        }
+        } 
     });
 });
+//grpc image send
+app.post('/grpc',upload.single('image'),(req,res)=>{
+    const imageBuffer =req.file.buffer;
+    const label = req.body.label;
+
+    console.log(label);
+    console.log(imageBuffer);
+    
+    const hashed = crypto.createHash('sha256').update(imageBuffer).digest('hex');
+    console.log(hashed);
+
+    const request = {
+        image : imageBuffer,
+        label : label,
+        hashed : hashed,
+    }
+
+    client.UploadImage(request, (err, response) => {
+        if (err) {
+            console.error("gRPC 통신 에러:", err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        console.log("gRPC 응답:", response);
+        res.json(response);
+    });
+})
+
+
 app.post('/upload', upload.single('image'), (req, res) => {
     const { label } = req.body;
     const filename = req.file.originalname;
