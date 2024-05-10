@@ -53,7 +53,7 @@ app.post('/reverse', (req, res) => {
         } 
     });
 });
-//grpc image send
+//grpc buffer image send
 app.post('/grpc',upload.single('image'),(req,res)=>{
     const imageBuffer =req.file.buffer;
     const label = req.body.label;

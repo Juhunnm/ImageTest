@@ -17,7 +17,6 @@ const FileUpload = () => {
       newFormData.append("filename", file.name);
     }
     newFormData.append("label", label);
-    console.log(newFormData)
     setFormData(newFormData);
   }, [file, label]);
 
@@ -49,6 +48,7 @@ const FileUpload = () => {
         alert("업로드 실패.");
       });
   };
+  
   const handleGrpc = () =>{
     axios.post("http://localhost:8800/grpc",formData,{
       headers: {

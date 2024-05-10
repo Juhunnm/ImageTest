@@ -4,7 +4,8 @@ const packageDefinition = protoLoader.loadSync("./news.proto", {});
 const newsProto = grpc.loadPackageDefinition(packageDefinition);
 const newsPackage = newsProto.newsPackage;
 
-
+const crypto = require('crypto');
+//grpc client
 const server = new grpc.Server();
 
 let news = [
@@ -32,17 +33,23 @@ function GetReverse (call,callback){
 }
 
 function UploadImage (call,callback){
-  const image = call.request.image;
-  const label = call.request.label;
-  const hashed = call.request.hashed;
+  // const image = call.request.image;
+  // const label = call.request.label;
+  // const hashed = call.request.hashed;
+  const {image,label,hashed} = call.request;
+
+  const grpcHash = crypto.createHash('sha256').update(image).digest('hex');
 
   console.log("grpc_server");
   console.log('label : ',label);
   console.log('image : ',image);
-  console.log(hashed);
+  console.log('hashed :',hashed);
 
-  callback(null,{status : "image received succesfully"})
-
+  if(grpcHash === hashed){
+    callback(null,{status: 'Image received succesfully & verified'})
+  }else{
+    callback(null,{status : "Not verified image"})
+  }
 }
 
 server.bindAsync(
